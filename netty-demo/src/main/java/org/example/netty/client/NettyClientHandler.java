@@ -18,6 +18,7 @@ public class NettyClientHandler extends ChannelDuplexHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         log.info("接受到请求：{}", msg);
+        // 将当前处理器处理的事件传递给下一个处理器继续处理。
         ctx.fireChannelRead(msg);
     }
 
@@ -26,5 +27,5 @@ public class NettyClientHandler extends ChannelDuplexHandler {
         log.info("处理过程中发生异常", cause);
         ctx.close();
     }
-    
+
 }

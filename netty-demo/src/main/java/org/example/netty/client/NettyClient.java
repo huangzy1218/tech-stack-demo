@@ -5,10 +5,7 @@ package org.example.netty.client;
  */
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -19,12 +16,18 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Netty 客户端示例
+ *
+ * @author Huang Z.Y.
  */
 @Slf4j
 public class NettyClient {
 
     private Bootstrap bootstrap;
     private EventLoopGroup group;
+    /**
+     * 保存已建立的管道
+     */
+    private Channel channel;
 
     public NettyClient() {
         // 初始化 Netty 组件
@@ -57,12 +60,12 @@ public class NettyClient {
     public void connect(String host, int port) {
         try {
             ChannelFuture future = bootstrap.connect(host, port).sync();
-            future.channel().closeFuture().sync();
+            // 存储频道以供以后使用
+            this.channel = future.channel();
+            future.channel().closeFuture().addListener(f -> group.shutdownGracefully());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("连接过程中被中断", e);
-        } finally {
-            group.shutdownGracefully();
         }
     }
 
@@ -71,15 +74,15 @@ public class NettyClient {
      *
      * @param message 要发送的消息内容
      */
-    public void sendMessage(String message) {
+    public void send(String message) {
         if (group.isShuttingDown() || group.isShutdown()) {
             throw new IllegalStateException("客户端已关闭或正在关闭");
         }
-        // 获取当前连接的 ChannelFuture
-        ChannelFuture future = bootstrap.connect().syncUninterruptibly();
+        if (channel == null || !channel.isActive()) {
+            throw new IllegalStateException("连接未建立或已关闭");
+        }
         // 向服务器发送消息
-        future.channel().writeAndFlush(message);
-        log.info("发送消息到服务器: {}", message);
+        channel.writeAndFlush(message);
     }
 
 }
