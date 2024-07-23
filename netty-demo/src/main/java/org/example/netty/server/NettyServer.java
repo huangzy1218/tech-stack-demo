@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyServer {
-
     private ServerBootstrap bootstrap;
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
@@ -82,5 +81,4 @@ public class NettyServer {
             log.error("关闭 Netty 服务器时出现异常", e);
         }
     }
-
 }

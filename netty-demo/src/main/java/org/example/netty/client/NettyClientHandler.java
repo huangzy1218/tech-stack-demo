@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyClientHandler extends ChannelDuplexHandler {
-
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         log.info("客户端连接成功: {}", ctx.channel().remoteAddress());
@@ -27,5 +26,4 @@ public class NettyClientHandler extends ChannelDuplexHandler {
         log.info("处理过程中发生异常", cause);
         ctx.close();
     }
-
 }

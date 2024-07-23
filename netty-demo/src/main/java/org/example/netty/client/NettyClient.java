@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyClient {
-
     private Bootstrap bootstrap;
     private EventLoopGroup group;
     /**
@@ -84,5 +83,4 @@ public class NettyClient {
         // 向服务器发送消息
         channel.writeAndFlush(message);
     }
-
 }
