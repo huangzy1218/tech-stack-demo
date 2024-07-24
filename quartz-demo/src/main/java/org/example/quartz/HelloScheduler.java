@@ -2,6 +2,8 @@ package org.example.quartz;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.matchers.EverythingMatcher;
+import org.quartz.impl.matchers.KeyMatcher;
 
 /**
  * @author Huang Z.Y.
@@ -30,6 +32,15 @@ public class HelloScheduler {
                         // 循环10次,每次间隔3s
                                 withRepeatCount(10))
                 .build();
+        
+        // 注册全局监听器
+        scheduler.getListenerManager().addJobListener(new HelloJobListener("job-listener-global"), EverythingMatcher.allJobs());
+        // 注册局部监听器
+        scheduler.getListenerManager().addJobListener(new HelloJobListener("job-listener"), KeyMatcher.keyEquals(JobKey.jobKey("job1", "group1")));
+        // 注册全局 Trigger 监听器
+        scheduler.getListenerManager().addTriggerListener(new HelloTriggerListener("trigger-listener"), KeyMatcher.keyEquals(TriggerKey.triggerKey("job1", "group1")));
+        // 注册全局 Scheduler 监听器
+        scheduler.getListenerManager().addSchedulerListener(new HelloSchedulerListener());
 
         // 调度器关联触发器, 并启动
         scheduler.scheduleJob(job, trigger);
