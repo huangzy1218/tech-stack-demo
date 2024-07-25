@@ -11,6 +11,7 @@
     <modules>
         <module>netty-demo</module>
         <module>quartz-demo</module>
+        <module>concurrent-demo</module>
     </modules>
 
     <properties>
