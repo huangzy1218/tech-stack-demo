@@ -12,6 +12,7 @@
         <module>netty-demo</module>
         <module>quartz-demo</module>
         <module>concurrent-demo</module>
+        <module>mq-demo</module>
     </modules>
 
     <properties>
