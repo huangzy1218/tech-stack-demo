@@ -9,19 +9,19 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.example</groupId>
-    <artifactId>mq-demo</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <modules>
-        <module>rocketmq-demo</module>
-        <module>rabbitmq-demo</module>
-        <module>kafka-demo</module>
-    </modules>
+    <artifactId>redis-demo</artifactId>
 
-    <properties>
-        <rocketmq.version>5.1.4</rocketmq.version>
-        <spring-boot-mq.version>2.3.0</spring-boot-mq.version>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.13.6</version>
+        </dependency>
+    </dependencies>
 
 </project>

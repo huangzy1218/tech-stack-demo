@@ -13,6 +13,7 @@
         <module>quartz-demo</module>
         <module>concurrent-demo</module>
         <module>mq-demo</module>
+        <module>redis-demo</module>
     </modules>
 
     <properties>
